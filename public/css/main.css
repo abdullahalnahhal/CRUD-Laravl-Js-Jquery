@@ -1,0 +1,33 @@
+.middle-height{
+	padding-top: 2em;
+}
+.item{
+	height: 5em;
+	border: 1px solid #000;
+	margin-bottom: .5em;
+}
+.item-control:hover{
+	background-color: blue;
+	color: #fff;
+	cursor: pointer;	
+}
+.invisible{
+	display: none;
+}
+.update{
+	cursor: pointer;
+}
+img{
+	height: 100%!important;
+}
+.input-alert{
+	-moz-box-shadow: -1px 0px 7px #ff0000;
+	-webkit-box-shadow: -1px 0px 7px #ff0000;
+	box-shadow: -1px 0px 7px #ff0000;
+}
+.alert{
+	position: fixed;
+	height: 5em;
+	bottom: 1px;
+	right: 1px;
+}
