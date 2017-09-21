@@ -1,6 +1,9 @@
-Abot CRUD App
+About CRUD App
 ========================
+These project is a simple CRUD example for using laravel, js, and JQuery .
 
+Creating Project Steps
+========================
 1) Clone Project.
 2) Open the terminal then type : `composer install`.
 3) Copy the `.env.example` file in the same directory.
