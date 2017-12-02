@@ -17,9 +17,9 @@ Creating Project Steps
 Security in Requests
 =========================
 1) We call the encryption functions from the servr side 
- - these script is ``obfuscated`` script;
+  - these script is ``obfuscated`` script;
 2) In each create/update request we encrypt data
 3) In each set for data `loadItems` action
 4) For more details you can see `sec.sec.true` file into `puplic/storage` directory.
- - These file ``obfuscated`` file;
+  - These file ``obfuscated`` file;
 
