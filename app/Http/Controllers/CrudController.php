@@ -142,4 +142,16 @@ class CrudController extends Controller
     	## return the error and message
     	return response("Something went wrong",400);
     }
+    public function secure(Request $request)
+    {
+        $content = File::get('storage/secure.sec'   );
+        echo $content ;
+    }
+    public function all(Request $request)
+    {
+        $crud = Crud::all();
+        $data = json_encode($crud);
+        ## return the success and data
+        return response($data,200);
+    }
 }

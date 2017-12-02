@@ -1,0 +1,176 @@
+/** 
+* These has the encryption algorithm and function needed for
+* @constructor
+*/
+var Enc = function(){
+    /**
+    * Transforms text to binary
+    * @param {String} text string that will be transformed
+    * @return {String} of binaries
+    * @constructor
+    */
+    this.toBinary = function(text)
+    {
+        this.string = "";
+        /**
+        * Transforms char to its binary value
+        * @param {string} char represents a single character
+        */
+        this.char2bin = function(char){
+            // get the unicode then transform it to binary and add space at the end to separate each character
+            return char.charCodeAt(0).toString(2)+" ";
+        }
+        //loop through the text character
+        for (var i = 0; i < text.length; i++) {
+            // Transform each character to binary then concatenate them into one text
+            this.string += this.char2bin(text[i]);
+        }
+        // return binary string
+        return this.string;
+    }
+    /**
+    * Transforms binary text to normal string
+    * @param {String} text of binaries string that will be transformed
+    * @return {String} 
+    * @constructor
+    */
+    this.fromBinary = function(text)
+    {
+        this.str ="";
+        // separate each character binary representation to transform it
+        splitted_string = text.split(" ");
+        /**
+        * Transforms binary representation to its character value
+        * @param {string} char represents a single character
+        */
+        this.bin2char = function(bin)
+        {
+            //parse binary to be intger then return the character from its unicode representation
+            return String.fromCharCode(parseInt(bin,2));
+        }
+        //loop through binaries and return concatenated characters
+        for (var i = 0; i < splitted_string.length; i++) {
+            this.str += this.bin2char(splitted_string[i]);
+        }
+        //return string
+        return this.str;
+    }
+    /**
+    * Generate random number from 0 to 30000
+    * @return {Integer} random number
+    * @constructor
+    */
+    this.keyGen = function()
+    {
+        return Math.floor(Math.random() * 30000);
+    }
+    /**
+    * checks if the element in array or not
+    * @param {Mixed} element an element that will be searched with
+    * @param {Array} heigh_stack array that will be searched in
+    * @Return {Boolean} true or false
+    * @constructor
+    */
+    this.in_array = function function_name(element, heigh_stack) {
+        if (heigh_stack.indexOf(element) != -1 ) {
+            return true;
+        }
+        return false;
+    }
+    /**
+    * transforms 0s to 1s and vice versa
+    * @param {string} char represents just one char either 1 or 0
+    * @return {Integer} 0 or 1
+    * @constructor
+    */
+    this.xor = function(char)
+    {
+        if (char == 0) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    /**
+    * Encrypts plain text and then return cipher text
+    * @param {String} plain is a normal string that is plain text
+    * @return {Object} object contains {pek:Public key , cipher:cipher text }
+    * @constructor
+    */
+    this.encrypt = function (plain)
+    {
+        // generate public key
+        pek = this.keyGen();
+        // transform it to be string and then split it to characters
+        pek_arr = pek.toString().split("");
+        // initiate cipher tex
+        cipher = "";
+        //transform these text to be binary
+        binary = this.toBinary(plain);
+        // split binaries 
+        text = binary.split(" ");
+        // loop through each character representation
+        for (i = 0; i < text.length; i++) {
+            string = text[i];
+            for (var char = 0; char < string.length; char++) {
+                // do XORfor each binary number that its order not one of the public key numbers
+                if (!this.in_array(char, pek_arr)) {
+                    cipher += this.xor(string[char]);
+                }else{
+                    cipher += string[char];
+                }
+            }
+            // remove the last two spaces we don't need them
+            if (i < text.length - 2) {
+            	cipher += " ";
+            }else{
+            	cipher += "";
+            }
+        }
+        // return cipher text and public key
+        $return = {
+            "pek" : pek,
+            "cipher" :cipher
+        }
+        return $return;
+    }
+    /**
+    * Decrypts cipher text and then return plain text
+    * @param {String} cipher is a binary string that is cipher text
+    * @param {Integer} pek represents the public key
+    * @return {String} plain text
+    * @constructor
+    */
+    this.decrypt = function (cipher, pek)
+    {
+        binary = "";
+        // check if the public key is not a number split it directly else transfer it to string first
+        if (isNaN(pek)) {
+            pek_arr = pek.split("");
+        }else{
+            pek_arr = pek.toString().split("");
+        }
+        // split each character binary representation using spaces
+        text = cipher.split(" ");
+        // loop through binaries
+        for (i = 0; i < text.length; i++) {
+            string = text[i];
+            for (char = 0; char < string.length; char++) {
+                // if the binary digit not in the order of primary key numbers do XOR
+                if (!this.in_array(char, pek_arr)) {
+                    binary += this.xor(string[char]);
+                }else{
+                    binary += string[char];
+                }
+            }
+            // we don't need the last spaces
+            if (i<text.length-1) {
+            	binary += " ";
+            }
+        }
+        // Transform binaries to be string
+        plain = this.fromBinary(binary);
+        //return string
+        return plain;
+    }
+}

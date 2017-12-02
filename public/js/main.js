@@ -11,10 +11,12 @@ Configs = function()
 		"update" : "update",
 		"remove" : "confirm",
 		"readAll" : "list",
-		"read" : "details"
+		"read" : "details",
 	}
 	// base url to send http requests
 	this.base_url = "http://localhost/crud/public";
+	// url that stores the storage files
+	this.storage_url = "http://localhost/crud/public/storage";
 }
 /**
 * Create commands of CRUD
@@ -22,6 +24,7 @@ Configs = function()
 */
 Command = function()
 {
+	
 	/**
 	* Make a creation command
 	* @param {DOM Object} element the HTML element that has the command
@@ -82,6 +85,9 @@ Command = function()
 			}
 			// append the id to the form
 			form.append("id",id);
+
+
+
 			// send delete request
 			server.call("post","delete",form,function(data)
 				{
@@ -130,7 +136,9 @@ Command = function()
 			form = forms.getAll();
 			form.append("id", id);
 			url = configs.base_url+"/update";
-			// send the update request
+
+
+
 			server.call("POST", url, form, function(data)
 				{
 					data = JSON.parse(data);
@@ -198,7 +206,14 @@ Forms = function()
 	*/
 	this.getAll = function()
 	{
-		form = new FormData($("form")[0	]);
+
+		cat = JSON.stringify(sec.encrypt($("#category").val())) ;
+		title = JSON.stringify(sec.encrypt($("#title").val())) ;
+		file = $("#img")[0].files[0];
+		form = new FormData($("form")[0]);
+		form.append('category', cat);
+		form.append('title', title);
+		form.append('img', file);
 		return form;
 	}
 }
@@ -360,6 +375,20 @@ Template = function()
 	*/
 	this.item = function(item)
 	{
+		// if there is error dont parse result and use it as it is
+		try {
+			item.title = JSON.parse(item.title);
+			item.title = sec.decrypt(item.title.cipher, item.title.pek);
+		} catch(e) {
+			item.title = item.title;
+		}
+		try {
+			item.category = JSON.parse(item.category);
+			item.category = sec.decrypt(item.category.cipher, item.category.pek);
+		} catch(e) {
+			item.category = item.category;
+		}
+				
 		return"<div class=\"row item\" id=\"item-"+item.id+"\" item=\""+item.id+"\" dir=\"rtl\" style=\"background: yellow\">"+
 				"<div class=\"col col-lg-3 middle-height title \" align=\"center\">"+
                     item.title + 
@@ -399,6 +428,20 @@ isset = function(value)
 	}
 	return true;
 }
+isString = function(string)
+{
+	if (typeof string === "string") {
+		return true;
+	}
+	return false;
+}
+/**
+*
+*
+*
+*/
+Sec = function () {}
+sec = new Sec();
 configs = new Configs();
 forms = new Forms();
 server = new Server();

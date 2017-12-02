@@ -30,7 +30,8 @@
         </form>
         <hr>
         <div class="item-group" id="item-group">
-            @foreach ($model as $item)
+            <i class="fa fa-circle-o-notch fa-spin fa-5x" style="margin-top: 2em;margin-left:6em;" ></i>
+           <!--  @foreach ($model as $item)
                 <div class="row item" id="item-{{$item->id}}" item="{{$item->id}}" dir="rtl" style="background: yellow">
                     <div class="col col-lg-3 title middle-height " align="center">
                         {{ $item->title }}
@@ -46,6 +47,6 @@
                         <i command="view" view = "{{$item->id}}" class="command-btn fa fa-eye item-control"></i>
                     </div>
                 </div>
-            @endforeach
+            @endforeach -->
         </div>
     @endsection

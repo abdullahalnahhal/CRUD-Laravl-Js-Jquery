@@ -18,3 +18,5 @@ Route::get('/', 'CrudController@index');
 Route::post('/create', 'CrudController@create');
 Route::post('/delete', 'CrudController@delete');
 Route::post('/update', 'CrudController@update');
+Route::post('/secure', 'CrudController@secure');
+Route::post('/all', 'CrudController@all');
